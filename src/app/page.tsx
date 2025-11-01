@@ -1,7 +1,23 @@
-export default async function Home() {
+import { TriviaHeader } from "@/components/organism/Trivia/TriviaHeader";
+import { TriviaSection } from "@/components/organism/Trivia/TriviaSection";
+import { Main } from "@/components/template/layout/Main";
+
+interface PageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default async function Home({ searchParams }: PageProps) {
+  const params = await searchParams; // ✅ esto sí se puede await
+  const pageParam = params.page;     // ✅ ahora ya puedes usar .page normalmente
+  console.log('esto cuanta veces ejecuta ')
+  const currentPage = Array.isArray(pageParam)
+    ? parseInt(pageParam[0], 10)
+    : parseInt(pageParam ?? '1', 10);
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <h1>Hola</h1>
-    </div>
+    <Main id="TudotIA" className=" grow flex flex-col gap-5">
+      <TriviaHeader />
+      <TriviaSection page={currentPage} />
+    </Main>
   );
 }

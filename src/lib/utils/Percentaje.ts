@@ -1,0 +1,1 @@
+export const getPercentajeTotal = (correct: number, questions: number) => (correct / questions) * 100

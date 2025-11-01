@@ -1,23 +1,32 @@
-import { Login } from "@/components/organism/auth/login"
-import { headers } from "next/headers";
+import { NavBar } from "@/components/organism/NavBar/NavBar";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 
+export const AuthTemplate = async ({ children }: { children: ReactNode }) => {
 
-export const AuthTemplate = async ({ children, token }: { children: React.ReactNode, token: string | null }) => {
+    const pathname = await (await headers()).get('x-pathname')!
+    const tokenck = await (await cookies()).get('x-token-api')
+    const publicRoutes = ['/login', '/register']
+    const parsedToken = tokenck?.value ? JSON.parse(atob(tokenck.value)) : null;
 
-    const referer = (await headers()).get('referer');
-    const pathname = referer ? new URL(referer).pathname : '';
-    console.log('pathname', pathname, 'no hay nada')
-    if (pathname === '/register') {
+    if (tokenck && publicRoutes.includes(pathname)) {
+        console.log(pathname, 'se ejcuta siempre aqui')
+        redirect('/')
+    }
+
+    if (!tokenck && publicRoutes.includes(pathname)) {
         return children
     }
 
-    if (!token) {
-        return (
-            <div id="auth-template" >
-                <Login />
-            </div>
-        )
+    if (!tokenck) {
+        return children
     }
 
-    return children
+    return (
+        <>
+            <NavBar user={parsedToken.user}/>
+            {children}
+        </>
+    )
 }

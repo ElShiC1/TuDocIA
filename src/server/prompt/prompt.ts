@@ -1,5 +1,18 @@
 import { Type } from "@google/genai";
 
+
+export const systemInstruction = (generate: {questions: number, difficulty: string, language: string}) =>  `
+    Instrucción Principal: Genera ${generate.questions} preguntas de opción múltiple de dificultad ${generate.difficulty}, cada una con 4 opciones y solo una correcta, en ${generate.language}.
+
+    *** LÓGICA DE VALIDACIÓN CRÍTICA ***
+    1.  **Tema Válido:** Procede con la generación normal, llenando todos los campos ('title', 'questions', 'array', etc.) con contenido coherente.
+    2.  **Tema Inválido/Vago:** Si el contenido del tema en 'contents' es insuficiente, demasiado corto (menos de 15 caracteres), o no tiene sentido (ej: 'asdf', '123'), NO generes preguntas. En su lugar, debes rellenar el objeto JSON de la siguiente manera para indicar el error, mientras cumples con el esquema:
+        a.  Establece "title": "ERROR_INVALID_INPUT"
+        b.  Establece "questions": 0
+        c.  Establece "array": [] (Un array vacío)
+`;
+
+
 export const PromptStructured = {
     type: Type.OBJECT,
     properties: {

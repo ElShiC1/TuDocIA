@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [new URL('https://herrmans.eu/**')],
+  },
+  experimental: {
+    viewTransition: true,
+  },
 };
 
 export default nextConfig;
