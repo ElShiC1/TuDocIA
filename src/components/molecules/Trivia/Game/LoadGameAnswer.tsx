@@ -1,3 +1,4 @@
+"use client"
 import { useProgress } from "@/lib/hook/useProgress"
 
 export const LoadGameAnswer = ({current, total}:{current: number, total: number}) => {

@@ -2,7 +2,7 @@ import { Response } from "@/lib/types/ts/Response";
 import { Repository } from "./Respository";
 
 export class AuthService implements Repository {
-    constructor() { }
+    constructor() {}
 
     async register({ username }: { username: string; token: string; }) {
         
