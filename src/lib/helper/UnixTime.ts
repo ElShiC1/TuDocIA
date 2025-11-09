@@ -1,0 +1,1 @@
+export const UnixTime = () => Math.floor((Date.now() / 1000) * 1000);

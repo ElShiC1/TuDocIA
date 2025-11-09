@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import { AuthTemplate } from "@/components/template/auth/auth-tpt";
-import Loader from "@/components/template/loader/Loader";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,7 +30,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} w-screen h-screen `}>
-        <Loader />
         <div className="max-w-[30rem] max-h-full h-full p-5 flex flex-col mx-auto gap-5">
           <AuthTemplate>
             {children}

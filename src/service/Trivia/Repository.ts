@@ -1,4 +1,4 @@
-import { GenerateQuest, Quest, TriviaClient } from "@/lib/types/ts/Quest"
+import { GenerateQuest, Quest, TriviaClient, TriviaView, TriviaViewEx } from "@/lib/types/ts/Quest"
 import { ApiResponse } from "@/lib/types/ts/Response"
 
 export interface MethodsPagination<T extends Record<string, any>> {
@@ -6,15 +6,42 @@ export interface MethodsPagination<T extends Record<string, any>> {
     filter?: T
 }
 
-export interface Cursor {
-    limit: number
-    currentPage: number,
-    next: boolean
+export interface Cursor<T> {
+    data: T
+    meta: {
+        limit: number,
+        items: number,
+        currentPage: number,
+        hasNextPage: boolean,
+        hasPrevPage: boolean,
+    }
 }
 
+export type CursorMeta = Cursor<any>["meta"];
+
+
 export interface Repository {
-    postTrivia: (data: GenerateQuest) => Promise<ApiResponse<Quest>>
-    getCursor: () => void
-    getTrivia: () => void
-    getIdTrivia: () => void
+    postTrivia: (data: GenerateQuest, loading?: (number: number) => void) => Promise<ApiResponse<{ id: number }>>
+    updateTrivia: (id: number, data: TriviaClient[]) => Promise<ApiResponse<{
+        getTrivia: TriviaViewEx;
+        getTriviaArray: TriviaClient[]
+    }>>
+    getTriviaId: (id: number) => Promise<ApiResponse<{
+        getTrivia: TriviaViewEx;
+        getTriviaArray: TriviaClient[]
+    }>>
+    getTriviaCursor: (data: MethodsPagination<{ search?: string, idCategory?: number, createAt?: 'asc' | 'desc', difficulty?: string }>) => Promise<ApiResponse<{
+        data: TriviaViewEx[];
+        meta: {
+            limit: number;
+            currentPage: number;
+            hasNextPage: boolean;
+            hasPrevPage: boolean;
+            items: number;
+        };
+    }>>,
+    getCategory: () => Promise<ApiResponse<{
+        id?: number;
+        name: string;
+    }[]>>
 }

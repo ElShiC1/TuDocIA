@@ -1,9 +1,9 @@
 import { TriviaClient } from "@/lib/types/ts/Quest"
 
-export const TitleAnswer = ({ triviaInfo }: { triviaInfo: TriviaClient }) => {
+export const TitleAnswer = ({ title, align }: { title: string, align?: boolean }) => {
     return (
-        <div className="flex justify-center">
-            <span className="text-xl text-blue-500 font-semibold text-center">{triviaInfo.quest}</span>
+        <div className={`flex ${!align ? "justify-center" : ""}`}>
+            <span className="text-xl text-blue-500 font-semibold text-center">{title}</span>
         </div>
     )
 }

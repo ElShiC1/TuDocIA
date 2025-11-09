@@ -16,7 +16,6 @@ export const useProgress = (current: number, total: number) => {
                 animationRef.current = null;
                 return targetRef.current;
             }
-            console.log("stop animation", targetRef.current);
             return prev + diff * 0.1;
         });
 

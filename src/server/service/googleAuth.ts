@@ -1,7 +1,7 @@
 import { AuthSchema } from "@/lib/types/validate/AuthVD";
 import { ApiError, GoogleGenAI } from "@google/genai";
-import { ErrorDto } from "../errors/ErrorDto";
 import { ErrorGlobal } from "@/lib/errors/ErrorGlobal";
+import { ErrorDto } from "@/lib/errors/ErrorDto";
 
 export const GoogleAuth = async (data: { token: string, user: string }) => {
     try {

@@ -1,5 +1,3 @@
-"use client"
-
 import { Form } from "@/components/organism/Create/Form"
 import { Main } from "@/components/template/layout/Main"
 

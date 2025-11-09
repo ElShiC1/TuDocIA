@@ -17,14 +17,19 @@ export const TriviaSection = ({ page }: { page: number }) => {
     const loading = Trivia((state) => state.loading)
 
     useEffect(() => {
-        getList(page)
-        getCursor(page)
+        getList({ page: page })
+        getCursor({ page: page })
     }, [page])
+
+
+    if (loading) {
+        return <span>Cargando....</span>
+    }
 
     return (
         <section className="grow flex flex-col gap-5">
             <CardViewList data={triviaList} />
-            <Pagination currentPage={page} limit={cursor.limit} />
+            <Pagination currentPage={page} limit={cursor?.limit ?? 0} />
         </section>
     )
 

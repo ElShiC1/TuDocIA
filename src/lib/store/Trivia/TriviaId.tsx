@@ -1,5 +1,6 @@
-import { TriviaClient, TriviaView } from "@/lib/types/ts/Quest";
+import { TriviaClient, TriviaView, TriviaViewEx } from "@/lib/types/ts/Quest";
 import { TriviaViewMock } from "@/mock/QuizView";
+import { TudotIA } from "@/service/global/TudotIA";
 import { create } from "zustand";
 
 
@@ -31,35 +32,79 @@ function deepShuffle(array: TriviaClient[]) {
 interface TriviaGameState {
   trivia: TriviaClient[]
   currentQuestion: number
-  resultTrivia?: TriviaView 
-  addTrivia: (trivia: TriviaClient[]) => void
+  resultTrivia?: TriviaViewEx
+  preview: boolean,
+  loading: boolean
   previusTrivia: () => void
   nextTrivia: () => void
   selectIdTrivia: (id: number) => void
   selectedAnswer: (answerIndex: number) => void
+  getTriviaId: (id: number) => void
+  reset: () => void
 }
 
 
 
 
 export const TriviaGame = create<TriviaGameState>((set, get) => ({
-  trivia: TriviaViewMock["array"],
-  resultTrivia: undefined, 
+  trivia: [],
+  resultTrivia: undefined,
+  loading: true,
   currentQuestion: 0,
-  addTrivia: (trivia: TriviaClient[]) => {
-    const shuffledAlternatives = deepShuffle(trivia)
-    set({ trivia: shuffledAlternatives });
+  preview: false,
+  reset: () => {
+    const { trivia, resultTrivia } = get()
+
+    let clonetrivia = structuredClone(trivia)
+    let cloneresultTrivia = structuredClone(resultTrivia)
+
+    clonetrivia.forEach((data) => {
+      data.userselect = undefined
+      delete data.iscorrect
+    })
+
+    if (cloneresultTrivia)
+      cloneresultTrivia = {
+        ...cloneresultTrivia,
+        answer: {
+          correct: 0,
+          incorrect: 0
+        }
+      }
+    console.log('funciona o no', clonetrivia, cloneresultTrivia)
+
+    set({
+      trivia: deepShuffle(clonetrivia),
+      resultTrivia: cloneresultTrivia,
+      currentQuestion: 0
+    })
+  },
+  getTriviaId: async (id) => {
+    const result = await TudotIA.trivia.getTriviaId(id)
+    if (result.success) {
+      const { getTrivia, getTriviaArray } = result.data
+
+      const resulTrivia = getTrivia.questions === (getTrivia.answer.correct + getTrivia.answer.incorrect)
+      console.log(resulTrivia)
+      set({
+        trivia: resulTrivia ? getTriviaArray : deepShuffle(getTriviaArray),
+        resultTrivia: getTrivia,
+        currentQuestion: resulTrivia ? getTriviaArray.length - 1 : 0,
+        preview: false,
+        loading: false
+      })
+    }
   },
   selectedAnswer: (answerIndex: number) => {
-    const { trivia, currentQuestion } = get();
-    console.log("Answer selected:", answerIndex);
+    const { trivia, currentQuestion, preview } = get();
+
+    if (preview) return;
+
     const triviaClone = structuredClone(trivia);
-    const selectIndex = triviaClone[currentQuestion].alternative.findIndex(alt => alt.correct);
 
     triviaClone[currentQuestion] = {
       ...triviaClone[currentQuestion],
       userselect: answerIndex,
-      iscorrect: selectIndex === answerIndex
     }
 
     console.log(triviaClone[currentQuestion]);
@@ -67,15 +112,27 @@ export const TriviaGame = create<TriviaGameState>((set, get) => ({
     set({ trivia: triviaClone });
   },
   previusTrivia: () => {
-    const { currentQuestion } = get();
+    const { trivia, currentQuestion, preview, resultTrivia } = get();
+
+    const triviaResult = trivia.length === ((resultTrivia?.answer.correct ? resultTrivia?.answer.correct : 0) + (resultTrivia?.answer.incorrect ? resultTrivia?.answer.incorrect : 0));
+    console.log(triviaResult, "trivia result");
+    const countSelect = trivia.reduce((acc, t) => acc + (t.userselect !== undefined ? 1 : 0), 0);
+    console.log(currentQuestion + 1 === trivia.length)
+    if (!preview && countSelect === trivia.length && currentQuestion + 1 === trivia.length && triviaResult) {
+      set({ preview: true });
+      return;
+    }
+
+
+    console.log("Previous question");
 
     if (currentQuestion - 1 >= 0) {
       set({ currentQuestion: currentQuestion - 1 });
     }
-
   },
   selectIdTrivia: (id: number) => {
     const { trivia } = get();
+
 
     if (id >= 0 && id < trivia.length) {
       set({ currentQuestion: id });
@@ -84,8 +141,8 @@ export const TriviaGame = create<TriviaGameState>((set, get) => ({
 
 
   },
-  nextTrivia: () => {
-    const { currentQuestion, trivia } = get();
+  nextTrivia: async () => {
+    const { currentQuestion, trivia, resultTrivia } = get();
 
     const countSelect = trivia.reduce((acc, t) => acc + (t.userselect !== undefined ? 1 : 0), 0);
 
@@ -93,20 +150,11 @@ export const TriviaGame = create<TriviaGameState>((set, get) => ({
       set({ currentQuestion: currentQuestion + 1 });
     }
 
-    if (countSelect === trivia.length && currentQuestion + 1 === trivia.length) {
-      set({
-        resultTrivia: {
-          id: 1,
-          title: "The Binding of Isaac",
-          category: "General",
-          difficulty: "medium",
-          questions: trivia.length,
-          answer: {
-            correct: trivia.filter(t => t.iscorrect).length,
-            incorrect: trivia.filter(t => !t.iscorrect).length,
-        }
-      }})
+    if (resultTrivia && resultTrivia.id && countSelect === trivia.length && currentQuestion + 1 === trivia.length) {
+      const result = await TudotIA.trivia.updateTrivia(resultTrivia.id, trivia)
+      if (result.success) {
+        set({ resultTrivia: result.data.getTrivia, trivia: result.data.getTriviaArray, preview: false })
+      }
     }
-
   }
 }))

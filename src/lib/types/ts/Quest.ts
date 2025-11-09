@@ -3,6 +3,7 @@ export interface GenerateQuest {
     questions: number,
     difficulty: 'easy' | 'medium' | 'hard',
     language: 'es' | 'en',
+    category: string
 }
 
 
@@ -22,19 +23,25 @@ export interface Quest {
 
 
 export interface TriviaView {
-    id: number,
+    id?: number,
     title: string,
-    category: string,
+    idcategory: number,
     difficulty: string,
+    language: string,
     questions: number,
+    createAt: number
     answer: {
         correct: number,
         incorrect: number,
     }
 }
 
+
+export type TriviaViewEx = Omit<TriviaView, 'idtrivia'> & { category: string }
+
 export interface TriviaClient extends QuestArray{
-    id?: number
+    id?: number,
+    idtrivia?: number
     userselect?: number,
     iscorrect?: boolean
 }

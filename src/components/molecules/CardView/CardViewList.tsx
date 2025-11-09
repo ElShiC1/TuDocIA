@@ -1,7 +1,7 @@
-import { TriviaView } from "@/lib/types/ts/Quest"
+import { TriviaView, TriviaViewEx } from "@/lib/types/ts/Quest"
 import { CardView } from "./CardView"
 
-export const CardViewList = ({ data }: { data: TriviaView[] }) => {
+export const CardViewList = ({ data }: { data: TriviaViewEx[] }) => {
 
 
 

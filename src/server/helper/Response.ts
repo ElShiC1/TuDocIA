@@ -1,4 +1,6 @@
-export const Response = <T>(value: { message: string, status: number, code: string }, data: T) => {
+import { SuccessResponse } from "@/lib/types/ts/Response"
+
+export const Response = <T>(value: { message: string, status: number, code: string }, data: T): SuccessResponse<T> => {
     return {
         success: true,
         message: value.message,

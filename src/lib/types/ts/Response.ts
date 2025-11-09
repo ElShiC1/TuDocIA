@@ -3,14 +3,14 @@ export interface Response<T> {
     message: string,
     timestamp: string,
     code: string,
-    status: string,
+    status: number,
     data: T
 }
 
-export type ErrorResponse<T> = Omit<Response<T>, 'data'> & {
+export type ErrorResponse = Omit<Response<any>, 'data'> & {
   error: {
     type: string;
-    code: string;
+    code?: string;
     status?: number;
     context?: Record<string, unknown>;
   };
@@ -20,5 +20,5 @@ export type SuccessResponse<T> = Response<T>;
 
 export type ApiResponse<T> =
   | (SuccessResponse<T> & { success: true })
-  | (ErrorResponse<T> & { success: false });
+  | (ErrorResponse & { success: false });
 

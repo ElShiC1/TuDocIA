@@ -1,5 +1,3 @@
-"use client"
-
 import { Button } from "@/components/molecules/Form/Button"
 import { InputText } from "@/components/molecules/Form/InputText"
 import { useFormZod } from "@/lib/hook/useFormZod";
