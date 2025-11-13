@@ -15,8 +15,8 @@ export default async function Home({ searchParams }: PageProps) {
     : parseInt(pageParam ?? '1', 10);
 
   return (
-    <Main id="TudotIA" className=" grow flex flex-col gap-5">
-      <TriviaHeader />
+    <Main id="TudotIA" className="grow flex flex-col gap-5">
+      <TriviaHeader page={currentPage}/>
       <TriviaSection page={currentPage} />
     </Main>
   );

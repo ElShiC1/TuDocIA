@@ -1,5 +1,4 @@
 import { TriviaClient, TriviaView, TriviaViewEx } from "@/lib/types/ts/Quest";
-import { TriviaViewMock } from "@/mock/QuizView";
 import { TudotIA } from "@/service/global/TudotIA";
 import { create } from "zustand";
 
@@ -39,19 +38,23 @@ interface TriviaGameState {
   nextTrivia: () => void
   selectIdTrivia: (id: number) => void
   selectedAnswer: (answerIndex: number) => void
-  getTriviaId: (id: number) => void
+  getTriviaId: (id: number) => Promise<void>
   reset: () => void
+  initial: () => void
 }
 
 
 
 
-export const TriviaGame = create<TriviaGameState>((set, get) => ({
+export const TriviaGame = create<TriviaGameState>((set, get, store) => ({
   trivia: [],
   resultTrivia: undefined,
   loading: true,
   currentQuestion: 0,
   preview: false,
+  initial: () => {
+    set(store.getInitialState)
+  },
   reset: () => {
     const { trivia, resultTrivia } = get()
 
@@ -71,7 +74,6 @@ export const TriviaGame = create<TriviaGameState>((set, get) => ({
           incorrect: 0
         }
       }
-    console.log('funciona o no', clonetrivia, cloneresultTrivia)
 
     set({
       trivia: deepShuffle(clonetrivia),
@@ -80,18 +82,24 @@ export const TriviaGame = create<TriviaGameState>((set, get) => ({
     })
   },
   getTriviaId: async (id) => {
+    set({ loading: true })
+
     const result = await TudotIA.trivia.getTriviaId(id)
+
     if (result.success) {
       const { getTrivia, getTriviaArray } = result.data
-
       const resulTrivia = getTrivia.questions === (getTrivia.answer.correct + getTrivia.answer.incorrect)
-      console.log(resulTrivia)
+      const ramdom = resulTrivia ? getTriviaArray : deepShuffle(getTriviaArray)
+
+      // 🔹 Añade un pequeño delay antes de mostrar
+      await new Promise(resolve => setTimeout(resolve, 300)) // un poco menos de medio segundo
+
       set({
-        trivia: resulTrivia ? getTriviaArray : deepShuffle(getTriviaArray),
+        trivia: ramdom,
         resultTrivia: getTrivia,
         currentQuestion: resulTrivia ? getTriviaArray.length - 1 : 0,
         preview: false,
-        loading: false
+        loading: false, // 🔹 mueve esto aquí
       })
     }
   },

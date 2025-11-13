@@ -28,9 +28,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} w-screen h-screen `}>
-        <div className="max-w-[30rem] max-h-full h-full p-5 flex flex-col mx-auto gap-5">
+        <div className=" dark:bg-red-500 dark:w-5 max-w-[30rem] max-h-full h-full p-5 flex flex-col mx-auto gap-5">
           <AuthTemplate>
             {children}
           </AuthTemplate>

@@ -13,7 +13,7 @@ export const Main = ({
 
     if (transition) {
         return (<ViewTransition name={transition}>
-            <main {...props}>{children}</main>;
+            <main {...props}>{children}</main>
         </ViewTransition>)
     }
 

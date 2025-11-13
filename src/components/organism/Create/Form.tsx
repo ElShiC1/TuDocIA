@@ -33,7 +33,7 @@ export const Form = () => {
         }
         setProgress(100)
         setSuccess(true);
-        router.push(`/quiz/${response.data.id}`);
+        router.push(`/trivia/${response.data.id}`);
 
     };
 
@@ -61,7 +61,7 @@ export const Form = () => {
                         </InputSelect>
                     </div>
 
-                    {isSubmitting ? <BarProgress percentajeReal={progress} /> : <Button value={message([isSubmitting, "Generando...."], [success, "✅Generado Trivia"], "Generar Trivia")} isSubmitting={isSubmitting} isSuccess={success} isValid={isValid} />}
+                    {isSubmitting ? <BarProgress percentajeReal={progress} /> : <Button value={message([isSubmitting, "Generando...."], [success, "Trivia Generado"], "Generar Trivia")} isSubmitting={isSubmitting} isSuccess={success} isValid={isValid} />}
                 </form>
             </div>
         </div>

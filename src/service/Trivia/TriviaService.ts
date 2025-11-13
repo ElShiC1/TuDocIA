@@ -2,7 +2,7 @@ import { GenerateQuest, Quest, TriviaClient, TriviaView } from "@/lib/types/ts/Q
 import { TableTuDocAI } from "../db/Db";
 import { UnixTime } from "@/lib/helper/UnixTime";
 import { ErrorGlobal } from "@/lib/errors/ErrorGlobal";
-import { Cursor, MethodsPagination } from "./Repository";
+import { Cursor, MethodsPagination, TriviaCursor } from "./Repository";
 import { filterSearch } from "@/lib/utils/filterSearch";
 import Dexie, { Collection, InsertType } from "dexie";
 
@@ -91,12 +91,19 @@ export class TriviaService {
 
             if (!triviaGet) throw new ErrorGlobal('ERROR_SERVICE', "Error al encontrar el trivia.", { code: 'Not_found', status: 404, context: { response: data } });
 
+            const {idcategory, ...more} = triviaGet
+            
+            const newTrivia = {
+                ...more,
+                category: await this.getCategoryId(idcategory)
+            }
+
             await this.db.triviaQuest.bulkPut(data.map((val) => ({
                 id: val.id,
                 ...val
             })))
 
-            return { data, triviaGet }
+            return { data, triviaGet: newTrivia }
         } catch (error) {
             throw new ErrorGlobal('ERROR_SERVICE', "Error al actualizar trivia.", { code: 'TRIVIA_updateTrivia', status: 500, context: { response: data } });
         }
@@ -108,13 +115,13 @@ export class TriviaService {
 
             if (!getTrivia) throw new ErrorGlobal('ERROR_SERVICE', `Trivia con el id ${id} no encontrar.`, { code: 'Not_Found', status: 404, context: { response: id } });
 
-            const {idcategory, ...data} = getTrivia
+            const { idcategory, ...data } = getTrivia
 
             const getNewTrivia = {
                 ...data,
                 category: await this.getCategoryId(idcategory)
             }
-            
+
 
             const getTriviaArray = await this.db.triviaQuest.where('idtrivia').equals(id).toArray()
 
@@ -124,45 +131,61 @@ export class TriviaService {
         }
     }
 
-    async getTriviaCursor(data: MethodsPagination<{ search?: string, idCategory?: number, createAt?: 'asc' | 'desc', difficulty?: string }>) {
+    async getTriviaCursor(data: TriviaCursor) {
         try {
             const { filter, page } = data;
             let query: Collection<TriviaView, never, InsertType<TriviaView, never>>
-            // 1️⃣ Usa el índice más selectivo
-            if (filter?.idCategory) {
-                query = this.db.trivia.where('difficulty').equals(filter.idCategory);
+
+            if (filter?.idCategory && !isNaN(Number(filter.idCategory))) {
+                query = this.db.trivia.where('idcategory').equals(Number(filter.idCategory));
             } else if (filter?.difficulty) {
                 console.log('paso aqui, difficulty')
                 query = this.db.trivia.where('difficulty').equals(filter.difficulty);
             } else {
                 query = this.db.trivia.orderBy('createAt');
             }
-
+            console.log(filter, 'service')
             const queryData = query
                 .filter(val => {
-                    if (filter?.search) {
-                        const matchesSearch =
-                            (val.title && filterSearch(filter.search, val.title)) ||
-                            (val.id && filterSearch(filter.search, String(val.id)));
-                        if (!matchesSearch) return false;
+                    const conditions: boolean[] = []
+
+                    // 🔍 Buscar por título o ID
+                    if (filter?.search && filter.search.trim() !== "") {
+                        const searchMatch =
+                            !!(val.title && filterSearch(filter.search, val.title)) ||
+                            !!(val.id && filter.search === String(val.id))
+                        conditions.push(searchMatch)
                     }
 
-                    if (filter?.difficulty && val.difficulty !== filter.difficulty) return false;
-                    if (filter?.idCategory && val.idcategory !== filter.idCategory) return false;
+                    // 🎯 Dificultad
+                    if (filter?.difficulty) {
+                        conditions.push(val.difficulty === filter.difficulty)
+                    }
 
-                    return true;
+                    // 🏷️ Categoría
+                    if (filter?.idCategory && !isNaN(Number(filter.idCategory))) {
+                        conditions.push(val.idcategory === Number(filter.idCategory))
+                    }
+
+                    // 🚨 Si no hay ningún filtro activo → no filtramos nada (mostrar todo)
+                    if (conditions.length === 0) return true
+
+                    // ✅ Si hay filtros → mostrar si al menos uno coincide
+                   return conditions.every(Boolean)
                 })
-                .reverse()
+
+
+            const resultOrder = !filter?.createAt ? queryData.reverse()  : queryData
 
             let totalItems: number
 
             if (true) {
-                totalItems = await queryData.count()
+                totalItems = await resultOrder.count()
             }
 
 
             // 2️⃣ Aplica filtro avanzado en memoria (solo sobre ese subconjunto)
-            const results = await queryData
+            const results = await resultOrder
                 .offset((page - 1) * this.limit)
                 .limit(this.limit)
                 .toArray();

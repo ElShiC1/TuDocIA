@@ -20,6 +20,9 @@ export interface Cursor<T> {
 export type CursorMeta = Cursor<any>["meta"];
 
 
+export type TriviaCursor = MethodsPagination<{ search?: string, idCategory?: string, createAt?: boolean, difficulty?: string }>
+
+
 export interface Repository {
     postTrivia: (data: GenerateQuest, loading?: (number: number) => void) => Promise<ApiResponse<{ id: number }>>
     updateTrivia: (id: number, data: TriviaClient[]) => Promise<ApiResponse<{
@@ -30,7 +33,7 @@ export interface Repository {
         getTrivia: TriviaViewEx;
         getTriviaArray: TriviaClient[]
     }>>
-    getTriviaCursor: (data: MethodsPagination<{ search?: string, idCategory?: number, createAt?: 'asc' | 'desc', difficulty?: string }>) => Promise<ApiResponse<{
+    getTriviaCursor: (data: TriviaCursor) => Promise<ApiResponse<{
         data: TriviaViewEx[];
         meta: {
             limit: number;
