@@ -79,7 +79,7 @@ export class AuthService {
                 for (const table of this.db.tables) {
 
                     const data = jsonData[table.name];
-                    console.log(data)
+
                     if (!Array.isArray(data)) {
                         throw new ErrorGlobal('importDatabase', "Archivo inválido.", {
                             code: 'AUTH_SERVICE',

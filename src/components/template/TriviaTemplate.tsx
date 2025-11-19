@@ -22,7 +22,6 @@ export const TriviaTemplate = ({ id }: { id: number }) => {
         }
 
         return () => {
-            console.log('componente desmontado')
             initial()
         }
     }, [id])

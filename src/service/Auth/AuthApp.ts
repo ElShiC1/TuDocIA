@@ -10,11 +10,11 @@ import { file } from "zod"
 export const AuthApp = (apiservice: ApiService, authService: AuthService): Repository => ({
     register: async (data) => {
         try {
-            console.log(data)
+
             const response = await apiservice.register(data)
-            console.log('paso aqui', response)
+
             const id = await authService.addToken(response.data.token)
-            console.log('add token')
+
             return Response({ message: `Usuario ${response.data.user} creado.`, status: 200, code: "SUCCES_REGISTER" }, { ...response.data, id: id })
         } catch (error) {
 
@@ -44,14 +44,14 @@ export const AuthApp = (apiservice: ApiService, authService: AuthService): Repos
     update: async (data) => {
         try {
             const response = await apiservice.register(data)
-            console.log('mi response', response)
+
             const id = await authService.updateToken(response.data.token)
             return Response({ message: `Configuracion actualizada.`, status: 200, code: "SUCCES_UPDATE" }, { ...response.data, id: id })
         } catch (error) {
 
             if (error instanceof AxiosError) {
                 if (error.response) {
-                    console.log(error.response)
+    
                     return error.response.data
                 }
             }
@@ -68,7 +68,7 @@ export const AuthApp = (apiservice: ApiService, authService: AuthService): Repos
 
             if (error instanceof AxiosError) {
                 if (error.response) {
-                    console.log(error.response)
+          
                     return error.response.data
                 }
             }
@@ -84,7 +84,7 @@ export const AuthApp = (apiservice: ApiService, authService: AuthService): Repos
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (error.response) {
-                    console.log(error.response)
+         
                     return error.response.data
                 }
             }
@@ -101,7 +101,7 @@ export const AuthApp = (apiservice: ApiService, authService: AuthService): Repos
         } catch (error) {
             if (error instanceof AxiosError) {
                 if (error.response) {
-                    console.log(error.response)
+
                     return error.response.data
                 }
             }

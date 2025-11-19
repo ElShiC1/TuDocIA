@@ -21,7 +21,6 @@ export const Trivia = create<Trivia>((set, get) => ({
     getList: async ({ page = 1, ...data }) => {
         
         const result = await TudotIA.trivia.getTriviaCursor({ page, ...data })
-        console.log(result, 'execute')
         if (result.success) {
             set({ trivia: result.data.data, loading: false, cursor: result.data.meta, filter: data.filter })
         }

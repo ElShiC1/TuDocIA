@@ -28,16 +28,13 @@ export const TriviaHeader = () => {
 
     useEffect(() => {
 
-        console.log(filter, marc, 'que paso aqui')
 
         if (initial) {
             SetInitial(false)
             return
         }
 
-        console.log(filter, marc, 'juntos amigossss')
         if (JSON.stringify(filter) === JSON.stringify(marc)) {
-            console.log('ejececuta')
             return;
         }
 

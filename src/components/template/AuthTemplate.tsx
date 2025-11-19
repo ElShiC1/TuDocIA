@@ -2,7 +2,7 @@ import { ThemeProvider } from "next-themes"
 import { Auth } from "../organism/global/Auth"
 import { Toaster } from "sonner"
 import { TudotIA } from "@/service/global/TudotIA"
-import { cookies } from "next/headers"
+import { cookies, headers } from "next/headers"
 
 export const AuthTemplate = async ({ children }: { children: React.ReactNode }) => {
     const cookieStore = cookies();
@@ -16,7 +16,7 @@ export const AuthTemplate = async ({ children }: { children: React.ReactNode }) 
                         {children}
                     </Auth>
                 </div>
-                <Toaster richColors/>
+                <Toaster richColors />
             </div>
         </ThemeProvider>
     )

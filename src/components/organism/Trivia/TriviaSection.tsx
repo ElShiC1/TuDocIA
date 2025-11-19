@@ -19,7 +19,6 @@ export const TriviaSection = ({ page }: { page: number }) => {
 
     useEffect(() => {
         getList({ page: page, filter: filter })
-        console.log('trivia section')
     }, [page])
 
     return (

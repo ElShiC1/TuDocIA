@@ -1,5 +1,4 @@
 import { DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
-import { unstable_ViewTransition as ViewTransition } from 'react'
 
 export const Main = ({
     children,
@@ -12,9 +11,8 @@ export const Main = ({
 
 
     if (transition) {
-        return (<ViewTransition name={transition}>
-            <main {...props}>{children}</main>
-        </ViewTransition>)
+        return <main {...props}>{children}</main>
+
     }
 
     return <main {...props}>{children}</main>;

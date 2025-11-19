@@ -23,7 +23,7 @@ export class TriviaService {
 
     async addCategory(name: string) {
         try {
-            console.log(name)
+
             if (!isNaN(Number(name))) {
                 const id = Number(name)
                 const getId = await this.db.category.get(id as any)
@@ -139,12 +139,12 @@ export class TriviaService {
             if (filter?.idCategory && !isNaN(Number(filter.idCategory))) {
                 query = this.db.trivia.where('idcategory').equals(Number(filter.idCategory));
             } else if (filter?.difficulty) {
-                console.log('paso aqui, difficulty')
+      
                 query = this.db.trivia.where('difficulty').equals(filter.difficulty);
             } else {
                 query = this.db.trivia.orderBy('createAt');
             }
-            console.log(filter, 'service')
+ 
             const queryData = query
                 .filter(val => {
                     const conditions: boolean[] = []

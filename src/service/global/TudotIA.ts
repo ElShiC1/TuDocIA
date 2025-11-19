@@ -4,7 +4,6 @@ import { AuthService } from "../Auth/AuthService";
 import { DatabaseIndex } from "../db/Db";
 import { TriviaApp } from "../Trivia/TriviaApp";
 import { TriviaService } from "../Trivia/TriviaService";
-console.log("¿Estoy en navegador?", typeof window !== "undefined");
 
 const apiservice = new ApiService()
 DatabaseIndex.init()

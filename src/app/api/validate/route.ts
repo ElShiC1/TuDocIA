@@ -8,10 +8,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
     try {
         const token = request.headers.get("x-token-api") || request.cookies.get("x-token-api")?.value;
-        console.log(token, 'de aqui que paso')
         if (!token) throw new ErrorGlobal('tokenCookieError', 'Cookie no encontrado', { code: 'VALIDATE_ERROR', status: 500 });
         const parsedToken = TokenParsed(token)
-        console.log(parsedToken, 'parsedtoken')
         await GoogleAuth(parsedToken)
         const response = Response({ message: 'Autenticado correctamente', status: 201, code: 'AUTH_SUCCESS' }, parsedToken)
         return NextResponse.json(response, { status: 200 })

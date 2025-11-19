@@ -4,7 +4,6 @@ import { User } from "@/lib/types/ts/User"
 export const TokenParsed = (token: string) => {
     try {
         const readToken = atob(token)
-        console.log(readToken, 'token raaderr')
         const parsedToken = JSON.parse(readToken) as User
         return parsedToken
     } catch (error) {

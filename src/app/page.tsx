@@ -9,7 +9,6 @@ interface PageProps {
 export default async function Home({ searchParams }: PageProps) {
   const params = await searchParams; // ✅ esto sí se puede await
   const pageParam = params.page;     // ✅ ahora ya puedes usar .page normalmente
-  console.log('esto cuanta veces ejecuta ')
   const currentPage = Array.isArray(pageParam)
     ? parseInt(pageParam[0], 10)
     : parseInt(pageParam ?? '1', 10);

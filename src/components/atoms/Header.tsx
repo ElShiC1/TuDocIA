@@ -1,10 +1,10 @@
-import Image from "next/image"
+import { Logo } from "./Icon/Logo"
 
 export const Header = ({title}:{title: string}) => {
     return (
         <div id="title" className="gap-2 flex items-center h-10 w-full justify-between">
-            <h1 className="text-xl font-semibold text-blue-600">{title}</h1>
-            <Image className="w-auto h-full" src="https://herrmans.eu/wp-content/uploads/2019/01/Hartje-Logo-500x500px.png" width={100} height={100} alt={""}></Image>
+            <h1 className="text-xl font-semibold text-blue-600 dark:text-neutral-200">{title}</h1>
+            <Logo className="w-auto h-full text-blue-500 dark:text-white"/>
         </div>
     )
 }

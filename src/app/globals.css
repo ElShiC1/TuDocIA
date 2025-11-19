@@ -22,6 +22,23 @@ body {
   }
 }
 
+
+
+/* Para pantallas menores a 380px */
+@media (max-width: 379px) {
+  :root {
+    font-size: 12px;
+  }
+}
+
+/* De 380px a 399px */
+@media (min-width: 380px) and (max-width: 399px) {
+  :root {
+    font-size: 15px;
+  }
+}
+
+
 .scroll-x {
   scrollbar-width: none;
 }

@@ -20,7 +20,6 @@ function playClickSound() {
 export const SelectAnswers = ({ triviaInfo, selectedAnswer, preview }: { triviaInfo: TriviaClient, selectedAnswer: (id: number) => void, preview: boolean }) => {
 
     const getColor = (correct: boolean, index: number) => {
-        console.log(correct, index)
         if (preview) {
             if (index === triviaInfo.userselect) {
                 return triviaInfo.iscorrect ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'

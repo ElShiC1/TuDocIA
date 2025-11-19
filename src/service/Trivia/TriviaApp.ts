@@ -5,8 +5,6 @@ import { GenerateQuest } from "@/lib/types/ts/Quest";
 import { TriviaService } from "./TriviaService";
 import { Response } from "@/server/helper/Response";
 
-console.log("¿Estoy en navegador?", typeof window !== "undefined");
-
 export const TriviaApp = (apiservice: ApiService, TriviaService: TriviaService): Repository => ({
     postTrivia: async (data: GenerateQuest, loading?: (number: number) => void) => {
         try {
@@ -24,7 +22,6 @@ export const TriviaApp = (apiservice: ApiService, TriviaService: TriviaService):
 
             return Response({ message: `Trivia con el id ${id} creado.`, status: 200, code: "POST_TRIVIA" }, { id: id })
         } catch (error) {
-            console.log(error)
             if (error instanceof ErrorApi) {
                 return error.response
             }

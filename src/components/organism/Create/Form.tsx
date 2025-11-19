@@ -22,7 +22,6 @@ export const Form = () => {
     const getCategory = shared((state) => state.getCategory)
     const category = shared((state) => state.category)
 
-    console.log(progress, 'qeee')
 
     const onsubmit = async (e: z.infer<typeof generateQuestSchema>) => {
 

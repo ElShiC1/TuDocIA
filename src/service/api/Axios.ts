@@ -43,7 +43,6 @@ export class ApiService {
     const response = await this.api.post<SuccessResponse<Quest>>("/ia", data, {
       metadata: { requestName: 'PostTrivia' }, onUploadProgress: (progress) => {
         const percentCompleted = (progress.loaded / progress.total!) * 100
-        console.log(percentCompleted)
       }
     } as AxiosRequestConfigWithMeta);
     return response.data;

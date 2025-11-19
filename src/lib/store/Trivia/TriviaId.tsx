@@ -118,7 +118,6 @@ export const TriviaGame = create<TriviaGameState>((set, get, store) => ({
       userselect: answerIndex,
     }
 
-    console.log(triviaClone[currentQuestion]);
 
     set({ trivia: triviaClone });
   },
@@ -126,16 +125,15 @@ export const TriviaGame = create<TriviaGameState>((set, get, store) => ({
     const { trivia, currentQuestion, preview, resultTrivia } = get();
 
     const triviaResult = trivia.length === ((resultTrivia?.answer.correct ? resultTrivia?.answer.correct : 0) + (resultTrivia?.answer.incorrect ? resultTrivia?.answer.incorrect : 0));
-    console.log(triviaResult, "trivia result");
+
     const countSelect = trivia.reduce((acc, t) => acc + (t.userselect !== undefined ? 1 : 0), 0);
-    console.log(currentQuestion + 1 === trivia.length)
+
     if (!preview && countSelect === trivia.length && currentQuestion + 1 === trivia.length && triviaResult) {
       set({ preview: true });
       return;
     }
 
 
-    console.log("Previous question");
 
     if (currentQuestion - 1 >= 0) {
       set({ currentQuestion: currentQuestion - 1 });

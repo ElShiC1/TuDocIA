@@ -38,14 +38,13 @@ export const Form = () => {
 
     const submitForm = async (data: z.infer<typeof registerSchema>) => {
         const result = await TudotIA.auth.register(data);
-        console.log(result)
         if (!result?.success) {
             toast.error(result.message)
             return
         }
 
         setSuccess(true)
-        router.replace("/");
+        router.replace("/")
         router.refresh();
         return;
     };
