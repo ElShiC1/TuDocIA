@@ -52,7 +52,7 @@ export const Form = () => {
     return (
         <form method="post" className="flex flex-col gap-5 w-full h-full" onSubmit={handleSubmit(submitForm)}>
             <InputText name="user" label="Usuario" register={register} errors={errors} />
-            <InputText name="token" label="Token" register={register} errors={errors} />
+            <InputText name="token" label="Token(GoogleAI - API KEY)" register={register} errors={errors} />
             <span className="text-xs text-center" style={{ viewTransitionName: "auth-text" }}>¿Tienes una cuenta TutDocAI?  <Link href={"/login"} className="text-blue-500 font-semibold">Iniciar Sesion</Link></span>
             <Button value={message([isSubmitting, "Creando cuenta"], [success, "Cuenta creada"], "Crear cuenta")} isSubmitting={isSubmitting} isSuccess={success} isValid={isValid} />
         </form>
