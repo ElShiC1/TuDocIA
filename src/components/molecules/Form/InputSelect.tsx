@@ -95,6 +95,7 @@ export const InputSelect = ({ active, label, selectValue, name, register, errors
                                     data-id={id}
                                     id="option-box"
                                     role="option"
+                                    aria-selected={marc.id === id}
                                     className={`px-2 py-1.5 cursor-pointer ${marc.id === id ? 'bg-blue-50 dark:bg-white/10' : ''} hover:bg-gray-100 rounded-md dark:hover:bg-white/10`}
                                 >
                                     {val}

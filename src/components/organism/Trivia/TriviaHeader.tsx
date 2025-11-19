@@ -59,7 +59,7 @@ export const TriviaHeader = () => {
                         <span id="hard" data-name="Dificil">Dificil</span>
                     </InputSelect>
                     <InputSelect selectValue={marc.idCategory} active={() => (category.length > 0 ? undefined : getCategory())} setValue={setValue} className="w-35" register={register} label="Categoria" name="idCategory">
-                        {category.map((val) => <span id={`${val.id}`} data-name={val.name}>{val.name}</span>)}
+                        {category.map((val) => <span key={val.id} id={`${val.id}`} data-name={val.name}>{val.name}</span>)}
                     </InputSelect>
                     <ButtonSp value="Limpiar Filtro" className="text-sm bg-blue-500 hover:bg-blue-600 cursor-pointer" onClick={() => reset({
                         search: "",

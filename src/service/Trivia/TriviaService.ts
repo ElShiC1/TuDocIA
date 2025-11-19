@@ -1,10 +1,10 @@
-import { GenerateQuest, Quest, TriviaClient, TriviaView } from "@/lib/types/ts/Quest";
+import { GenerateQuest, TriviaClient, TriviaView } from "@/lib/types/ts/Quest";
 import { TableTuDocAI } from "../db/Db";
 import { UnixTime } from "@/lib/helper/UnixTime";
 import { ErrorGlobal } from "@/lib/errors/ErrorGlobal";
-import { Cursor, MethodsPagination, TriviaCursor } from "./Repository";
+import { Cursor, TriviaCursor } from "./Repository";
 import { filterSearch } from "@/lib/utils/filterSearch";
-import Dexie, { Collection, InsertType } from "dexie";
+import { Collection, InsertType } from "dexie";
 
 export class TriviaService {
 

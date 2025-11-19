@@ -1,6 +1,6 @@
 import { Icon } from "@/components/atoms/Icon/Icons";
 import { formatSize } from "@/lib/helper/formatSize";
-import { RefObject, useRef } from "react";
+import { useRef } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 export const InputJson = ({ register, error, fileMarc }: {

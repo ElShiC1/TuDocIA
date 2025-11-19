@@ -6,7 +6,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Registrarse - TuDocAI",
-    description: "Crea tu cuenta en TuDocAI para generar trivias personalizadas y administrar tu base de datos indexada."
+    description: "Crea tu cuenta en TuDocAI para generar trivias personalizadas y administrar tu base de datos indexada.",
+    alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_URL}/register`
+    },
 }
 
 const Register = () => {

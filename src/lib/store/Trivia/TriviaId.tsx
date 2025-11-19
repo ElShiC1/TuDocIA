@@ -58,7 +58,7 @@ export const TriviaGame = create<TriviaGameState>((set, get, store) => ({
   reset: () => {
     const { trivia, resultTrivia } = get()
 
-    let clonetrivia = structuredClone(trivia)
+    const clonetrivia = structuredClone(trivia)
     let cloneresultTrivia = structuredClone(resultTrivia)
 
     clonetrivia.forEach((data) => {
@@ -66,7 +66,7 @@ export const TriviaGame = create<TriviaGameState>((set, get, store) => ({
       delete data.iscorrect
     })
 
-    if (cloneresultTrivia)
+    if (cloneresultTrivia) {
       cloneresultTrivia = {
         ...cloneresultTrivia,
         answer: {
@@ -74,6 +74,7 @@ export const TriviaGame = create<TriviaGameState>((set, get, store) => ({
           incorrect: 0
         }
       }
+    }
 
     set({
       trivia: deepShuffle(clonetrivia),
@@ -104,7 +105,7 @@ export const TriviaGame = create<TriviaGameState>((set, get, store) => ({
     }
 
 
-    set({loading: false})
+    set({ loading: false })
   },
   selectedAnswer: (answerIndex: number) => {
     const { trivia, currentQuestion, preview } = get();

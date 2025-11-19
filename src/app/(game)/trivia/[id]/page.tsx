@@ -10,6 +10,9 @@ export async function generateMetadata({ params }: {
     return {
         title: `Trivia #${idTrivia.id} - TuDocAI`,
         description: `Responde la trivia número ${idTrivia.id} generada por TuDocAI y prueba tus conocimientos.`,
+        alternates: {
+            canonical: `${process.env.NEXT_PUBLIC_URL}/trivia/${idTrivia.id}`
+        },
         robots: {
             index: false,
             follow: false

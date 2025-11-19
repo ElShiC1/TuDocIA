@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 
 
-export const userSettings = () => {
+export const useSettings = () => {
 
     const router = useRouter()
     const [loading, SetLoading] = useState(false)

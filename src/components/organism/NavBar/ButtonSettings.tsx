@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import { useForm } from "react-hook-form";
-import { userSettings } from "@/lib/actions/userSettings.actions";
+import { useSettings } from "@/lib/actions/userSettings.actions";
 import { useEffect } from "react";
 import { ButtonSp } from "@/components/molecules/Form/ButtonSp";
 
@@ -25,7 +25,7 @@ export const ButtonSetting = ({ user }: { user: User }) => {
 
     const themeBool = watch("theme");
 
-    const { onSubmitExport, onSubmitLogout, onSubmitConfig, isSubmmit } = userSettings()
+    const { onSubmitExport, onSubmitLogout, onSubmitConfig, isSubmmit } = useSettings()
 
     useEffect(() => {
         setTheme(!themeBool ? "light" : "dark");

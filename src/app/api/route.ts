@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ApiError, GoogleGenAI } from "@google/genai";
 import { GoogleAuth } from "@/server/service/googleAuth";
 import { Response } from "@/server/helper/Response";
 import { ErrorGlobal } from "@/lib/errors/ErrorGlobal";

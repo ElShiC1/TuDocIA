@@ -58,7 +58,7 @@ export const Form = () => {
                         </InputSelect>
                         <InputText className="grow basis-[clamp(8rem,8vw,10rem)]" label="Preguntas" name="questions" register={register} errors={errors} />
                         <InputSelect active={() =>  (category.length > 0 ?  undefined : getCategory())} inputValue setValue={setValue} className="grow basis-[clamp(8rem,8vw,10rem)]" label="Categoria" name="category" register={register} errors={errors}>
-                            {category.map((val) => <span id={`${val.id}`} data-name={val.name}>{val.name}</span>)}
+                            {category.map((val) => <span key={val.id} id={`${val.id}`} data-name={val.name}>{val.name}</span>)}
                         </InputSelect>
                     </div>
 

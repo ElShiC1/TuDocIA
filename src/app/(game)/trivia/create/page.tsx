@@ -4,14 +4,17 @@ import { Metadata } from "next"
 
 
 export const metadata: Metadata = {
-  title: "Crear Trivia - TuDocAI",
-  description: "Crea trivias personalizadas en TuDocAI y administra tus preguntas de forma rápida y sencilla.",
+    title: "Crear Trivia - TuDocAI",
+    description: "Crea trivias personalizadas en TuDocAI y administra tus preguntas de forma rápida y sencilla.",
+    alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_URL}/create`
+    },
 };
 
 const Create = () => {
     return (
         <Main id="create" className="h-full w-full flex items-center justify-center">
-            <Form/>
+            <Form />
         </Main>
     )
 }

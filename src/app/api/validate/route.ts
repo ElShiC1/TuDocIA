@@ -1,5 +1,4 @@
 import { ErrorGlobal } from "@/lib/errors/ErrorGlobal";
-import { User } from "@/lib/types/ts/User";
 import { Response } from "@/server/helper/Response";
 import { GoogleAuth } from "@/server/service/googleAuth";
 import { TokenParsed } from "@/server/util/tokenParsed";

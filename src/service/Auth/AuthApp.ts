@@ -5,7 +5,6 @@ import { Repository } from "./Respository"
 import { Response } from "@/server/helper/Response"
 import { AxiosError } from "axios"
 import { readJSONFile } from "@/lib/utils/readJSONFile"
-import { file } from "zod"
 
 export const AuthApp = (apiservice: ApiService, authService: AuthService): Repository => ({
     register: async (data) => {

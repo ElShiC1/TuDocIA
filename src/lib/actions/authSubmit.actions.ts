@@ -1,3 +1,4 @@
+"use client"
 import z from "zod";
 import { FileSchema } from "../types/validate/AuthVD";
 import { TudotIA } from "@/service/global/TudotIA";
@@ -5,10 +6,9 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export const authSubmit = () => {
-    const [succes, setSuccess] = useState(false)
+export const useAuthSubmit  = () => {
     const router = useRouter()
-
+    const [succes, setSuccess] = useState(false)
 
     const submitLogin = async (data: z.infer<typeof FileSchema>) => {
         const response = await TudotIA.auth.importDB(data.file[0])

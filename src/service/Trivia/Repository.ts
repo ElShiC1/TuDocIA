@@ -1,4 +1,4 @@
-import { GenerateQuest, Quest, TriviaClient, TriviaView, TriviaViewEx } from "@/lib/types/ts/Quest"
+import { GenerateQuest, TriviaClient, TriviaViewEx } from "@/lib/types/ts/Quest"
 import { ApiResponse } from "@/lib/types/ts/Response"
 
 export interface MethodsPagination<T extends Record<string, any>> {

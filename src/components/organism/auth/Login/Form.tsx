@@ -1,7 +1,7 @@
 "use client"
 import { InputJson } from "@/components/molecules/Auth/Login/InputJson"
 import { Button } from "@/components/molecules/Form/Button"
-import { authSubmit } from "@/lib/actions/authSubmit.actions"
+import { useAuthSubmit } from "@/lib/actions/authSubmit.actions"
 import { useFormZod } from "@/lib/hook/useFormZod"
 import { message } from "@/lib/hook/useMessage"
 import { FileSchema } from "@/lib/types/validate/AuthVD"
@@ -19,7 +19,7 @@ export const Form = () => {
 
     const fileMarc = watch("file")
 
-    const { submitLogin, succes } = authSubmit()
+    const { submitLogin, succes } = useAuthSubmit()
 
     return (
         <form method="post" className="flex flex-col gap-5 w-full h-full" onSubmit={handleSubmit(submitLogin)}>

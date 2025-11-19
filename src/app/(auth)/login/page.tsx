@@ -7,7 +7,9 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
     title: "Iniciar Sesión - TuDocAI",
     description: "Accede a tu cuenta de TuDocAI para generar trivias personalizadas y gestionar tu base de datos indexada.",
-    
+    alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_URL}/login`
+    },
 }
 
 
