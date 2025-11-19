@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "TuDocAI – Trivias personalizables con IA",
   description: "TuDocAI es una plataforma de IA que genera trivias personalizadas, gestiona tus datos de manera eficiente y te permite mantener tu propia base de datos indexada.",
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000"}`
+  },
   icons: {
     icon: [
       { url: "/favicon-light.ico", media: "(prefers-color-scheme: light)" },

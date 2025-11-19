@@ -16,9 +16,9 @@ interface AxiosRequestConfigWithMeta extends AxiosRequestConfig {
 export class ApiService {
   private api: AxiosInstance;
 
-  constructor(baseURL = "http://localhost:3000/api") {
+  constructor(baseURL = "http://localhost:3000") {
     this.api = axios.create({
-      baseURL,
+      baseURL: process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}/api` : baseURL,
       withCredentials: true,
     });
   }

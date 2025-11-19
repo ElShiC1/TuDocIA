@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     title: "Crear Trivia - TuDocAI",
     description: "Crea trivias personalizadas en TuDocAI y administra tus preguntas de forma rápida y sencilla.",
     alternates: {
-        canonical: `${process.env.NEXT_PUBLIC_URL}/create`
+        canonical: `${process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000"}/create`
     },
 };
 
