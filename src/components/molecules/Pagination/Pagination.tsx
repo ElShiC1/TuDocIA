@@ -12,8 +12,8 @@ export const Pagination = ({ limit, currentPage }: { limit: number, currentPage:
                         <div
                             key={page}
                             className={`page w-8 h-8 flex items-center justify-center rounded-4xl font-semibold ${page === currentPage
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-400 text-white"
+                                ? "bg-blue-500 text-white dark:bg-blue-800"
+                                : "bg-gray-400 text-white dark:bg-gray-600/50"
                                 }`}
                         >
                             {page}

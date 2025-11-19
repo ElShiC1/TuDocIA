@@ -18,12 +18,12 @@ export const TriviaSection = ({ page }: { page: number }) => {
     const loading = Trivia((state) => state.loading)
 
     useEffect(() => {
-        console.log('execute Section', filter, page, cursor)
         getList({ page: page, filter: filter })
+        console.log('trivia section')
     }, [page])
 
     return (
-        <Suspense loading={loading}>
+        <Suspense loading={loading} data={[triviaList.length === 0, "No hay resultados para mostrar", "Genera un trivia"]}>
             <section className="grow flex flex-col gap-5">
                 <CardViewList data={triviaList} />
                 <Pagination currentPage={cursor?.currentPage ?? page} limit={cursor?.limit ?? 0} />

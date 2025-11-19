@@ -13,11 +13,12 @@ export const useFormZod = <T extends z.ZodObject>(schema: T) => {
     register,
     handleSubmit,
     formState,
+    watch,
     setValue
   } = useForm<z.infer<T>>({
     resolver: zodResolver(schema) as any,
     mode: "all",
   });
 
-  return { success, setSuccess, register, handleSubmit, formState, setValue };
+  return { success, setSuccess, register, handleSubmit, formState, setValue, watch };
 };

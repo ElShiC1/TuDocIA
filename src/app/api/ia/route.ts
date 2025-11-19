@@ -11,7 +11,6 @@ interface QuestIARequest extends NextRequest {
 
 export async function POST(request: QuestIARequest) {
     const parsedToken = JSON.parse(atob(request.cookies.get('x-token-api')?.value || '{}'));
-    console.log(parsedToken)
     try {
         const body = await request.json();
         const data = await GoogleAI({ ...body, token: parsedToken.token || '' });

@@ -1,10 +1,15 @@
-import { Login as LoginOrg } from '@/components/organism/auth/login'
+import { CardModal } from '@/components/atoms/CardModal'
+import { Header } from '@/components/atoms/Header'
+import { Login as LoginOrg } from '@/components/organism/auth/Login/login'
 import { Main } from '@/components/template/layout/Main'
 
 const Login = () => {
     return (
-        <Main transition='auth' id="register" className="h-full flex items-center justify-center">
-            <LoginOrg />
+        <Main transition='auth' id="login" className="h-full flex items-center justify-center">
+            <CardModal className="w-[24rem] max-w-md m-auto rounded-4xl bg-white dark:bg-neutral-900 border-1 border-gray-300 dark:border-neutral-800 p-10 flex flex-col gap-6 shadow-2xl" style={{ viewTransitionName: 'div-auth' }}>
+                <Header title="Registrarse" />
+                <LoginOrg />
+            </CardModal>
         </Main>
     )
 }

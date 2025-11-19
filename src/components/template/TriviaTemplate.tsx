@@ -33,7 +33,7 @@ export const TriviaTemplate = ({ id }: { id: number }) => {
 
 
     return (
-        <Suspense loading={loading}>
+        <Suspense loading={loading} data={[!resultTrivia, `No se encontró la trivia con el ID ${id}`, 'Por favor, busca otra trivia disponible']}>
             {!loading && (!completedTrivia || preview) && <Game preview={preview} />}
             {!loading && completedTrivia && !preview && <Result resultTrivia={resultTrivia} />}
         </Suspense>

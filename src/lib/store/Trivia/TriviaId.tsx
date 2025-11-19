@@ -102,6 +102,9 @@ export const TriviaGame = create<TriviaGameState>((set, get, store) => ({
         loading: false, // 🔹 mueve esto aquí
       })
     }
+
+
+    set({loading: false})
   },
   selectedAnswer: (answerIndex: number) => {
     const { trivia, currentQuestion, preview } = get();

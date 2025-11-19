@@ -1,29 +1,49 @@
 "use client"
 import { Icon } from "@/components/atoms/Icon/Icons"
+import { BtnChange } from "@/components/molecules/Form/BtnChange"
+import { ButtonSp } from "@/components/molecules/Form/ButtonSp"
 import { InputSelect } from "@/components/molecules/Form/InputSelect"
 import { InputText } from "@/components/molecules/Form/InputText"
 import { ModalButton } from "@/components/molecules/Modal/ModalButton"
 import { shared } from "@/lib/store/shared/Shared"
 import { Trivia } from "@/lib/store/Trivia/Trivia"
 import Link from "next/link"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useForm, useWatch } from "react-hook-form"
 
 export const TriviaHeader = () => {
 
     const getList = Trivia((state) => state.getList)
     const filter = Trivia((state) => state.filter)
-    const cursor = Trivia((state) => state.cursor)
     const getCategory = shared((state) => state.getCategory)
     const category = shared((state) => state.category)
 
-    const { register, setValue, watch, formState: { errors }, handleSubmit, control } = useForm();
+    const { register, setValue, formState: { errors }, handleSubmit, control, reset } = useForm({
+        defaultValues: filter
+    });
 
     const marc = useWatch({ control }) as NonNullable<typeof filter>;
 
-    useEffect(() => {
-        if(Object.keys(marc).length === 0) return;
+    const [initial, SetInitial] = useState(true)
 
+    useEffect(() => {
+
+        console.log(filter, marc, 'que paso aqui')
+
+        if (initial) {
+            SetInitial(false)
+            return
+        }
+
+        console.log(filter, marc, 'juntos amigossss')
+        if (JSON.stringify(filter) === JSON.stringify(marc)) {
+            console.log('ejececuta')
+            return;
+        }
+
+
+
+        if (Object.keys(marc).length === 0) return;
         getList({ page: 1, filter: marc });
         window.history.replaceState({}, "", "?page=1");
     }, [marc]);
@@ -35,16 +55,7 @@ export const TriviaHeader = () => {
             <div id="search-filter" className="flex gap-2 h-10">
                 <InputText className="flex-auto h-10" label="Buscar" name="search" register={register} errors={errors} />
                 <ModalButton id="Filtro" icon={<Icon.Filter className="w-7 h-full" />} className="w-10 h-10 flex items-center justify-center bg-blue-600 hover:bg-blue-500 cursor-pointer text-white font-semibold rounded-full">
-                    <div id="order" className="flex flex-col gap-1">
-                        <span className="text-xs text-gray-500">Order</span>
-                        <div className="flex gap-1 text-sm  px-2 py-2 rounded-xl items-center justify-between bg-gray-100">
-                            <span className="transition-all">{marc.createAt ? "Antiguo" : "Reciente"}</span>
-                            <label className="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" className="sr-only peer" {...register("createAt")} />
-                                <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
-                            </label>
-                        </div>
-                    </div>
+                    <BtnChange status={marc.createAt} name="createAt" register={register} label="Order" option={["Antiguo", "Reciente"]} />
                     <InputSelect selectValue={marc.difficulty} readOnly setValue={setValue} className="w-full" label="Dificultad" name="difficulty" register={register} errors={errors}>
                         <span id="easy" data-name="Facil">Facil</span>
                         <span id="medium" data-name="Medio">Medio</span>
@@ -53,6 +64,12 @@ export const TriviaHeader = () => {
                     <InputSelect selectValue={marc.idCategory} active={() => (category.length > 0 ? undefined : getCategory())} setValue={setValue} className="w-35" register={register} label="Categoria" name="idCategory">
                         {category.map((val) => <span id={`${val.id}`} data-name={val.name}>{val.name}</span>)}
                     </InputSelect>
+                    <ButtonSp value="Limpiar Filtro" className="text-sm bg-blue-500 hover:bg-blue-600 cursor-pointer" onClick={() => reset({
+                        search: "",
+                        idCategory: "",
+                        createAt: false,
+                        difficulty: "",
+                    })} />
                 </ModalButton>
                 <Link title="Crear registro" href="/trivia/create"
                     className="w-10 h-10 flex items-center justify-center p-1  hover:bg-blue-500 bg-blue-600 text-white font-semibold rounded-full"

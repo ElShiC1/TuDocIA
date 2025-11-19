@@ -3,7 +3,7 @@ import { ApiError, GoogleGenAI } from "@google/genai";
 import { ErrorGlobal } from "@/lib/errors/ErrorGlobal";
 import { ErrorDto } from "@/lib/errors/ErrorDto";
 
-export const GoogleAuth = async (data: { token: string, user: string }) => {
+export const GoogleAuth = async (data: { token: string, user: string, theme: string }) => {
     try {
         const result = AuthSchema.safeParse(data);
 

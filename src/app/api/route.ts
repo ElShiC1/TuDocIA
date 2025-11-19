@@ -3,6 +3,10 @@ import { ApiError, GoogleGenAI } from "@google/genai";
 import { GoogleAuth } from "@/server/service/googleAuth";
 import { Response } from "@/server/helper/Response";
 import { ErrorGlobal } from "@/lib/errors/ErrorGlobal";
+import { ErrorDto } from "@/lib/errors/ErrorDto";
+
+
+
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,10 +16,11 @@ export async function POST(request: NextRequest) {
     const token = btoa(JSON.stringify({
       token: body.token,
       date: new Date().toISOString(),
-      user: body.user
+      user: body.user,
+      theme: body.theme ?? 'system'
     }));
 
-    const response = NextResponse.json(Response({ message: 'Autenticado correctamente', status: 201, code: 'AUTH_SUCCESS' }, { user: body.user, token: body.token }), { status: 201 });
+    const response = NextResponse.json(Response({ message: 'Autenticado correctamente', status: 201, code: 'AUTH_SUCCESS' }, { user: body.user, token: token }), { status: 201 });
 
     response.cookies.set('x-token-api', token, {
       httpOnly: false,
@@ -28,6 +33,11 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (err) {
     if (err instanceof ErrorGlobal) {
+      const error = err.toJSON();
+      return NextResponse.json(error, { status: error.status });
+    }
+
+    if (err instanceof ErrorDto) {
       const error = err.toJSON();
       return NextResponse.json(error, { status: error.status });
     }

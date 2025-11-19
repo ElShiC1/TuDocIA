@@ -35,7 +35,7 @@ export const SelectAnswers = ({ triviaInfo, selectedAnswer, preview }: { triviaI
     }
 
     return (
-        <div className="relative text-center flex flex-col gap-3.5">
+        <div className="relative text-center flex dark:text-white flex-col gap-3.5">
             {triviaInfo.alternative.map((value, index) => (
                 <div key={index} className="flex grow border-1 border-gray-300 rounded-xl overflow-hidden shadow-sm">
                     <input disabled={preview} type="radio" name="quest" id={value.answer} className="hidden peer" checked={triviaInfo.userselect === index} onChange={() => {

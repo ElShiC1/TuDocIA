@@ -14,7 +14,7 @@ export class ErrorDto extends Error {
         metadata: ErrorMetadata,
         private readonly issues?: $ZodIssue[]
     ) {
-        const message = `Valores inválidos en los campos ${issues?.map((val) => val.path?.[0] ?? 'desconocido').join(' - ') || 'desconocido'
+        const message = `Valor inválido en el campo ${issues?.map((val) => val.path?.[0] ?? 'desconocido').join(' - ') || 'desconocido'
             }`;
 
         super(message);

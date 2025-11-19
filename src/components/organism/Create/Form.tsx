@@ -11,6 +11,7 @@ import { generateQuestSchema } from "@/lib/types/validate/QuestVD"
 import { TudotIA } from "@/service/global/TudotIA"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { toast } from "sonner"
 import z from "zod"
 
 export const Form = () => {
@@ -28,6 +29,7 @@ export const Form = () => {
         const response = await TudotIA.trivia.postTrivia(e, setProgress);
         // Simula procesamiento o redirección
         if (!response.success) {
+            toast.error(response.message);
             setSuccess(false);
             return;
         }
@@ -38,7 +40,7 @@ export const Form = () => {
     };
 
     return (
-        <div className="h-auto w-full bg-white border border-gray-300 shadow-sm rounded-4xl p-10 flex flex-col gap-5">
+        <div className="h-auto w-full bg-white border border-gray-300 shadow-sm rounded-4xl p-10 flex flex-col gap-5 dark:bg-neutral-900 dark:border-neutral-800">
             <div className="flex justify-center">
                 <span className="text-xl text-blue-500 font-semibold">Escribe un tema de Trivia</span>
             </div>

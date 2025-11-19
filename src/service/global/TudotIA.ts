@@ -1,17 +1,17 @@
 import { ApiService } from "../api/Axios";
 import { AuthApp } from "../Auth/AuthApp";
+import { AuthService } from "../Auth/AuthService";
 import { DatabaseIndex } from "../db/Db";
 import { TriviaApp } from "../Trivia/TriviaApp";
 import { TriviaService } from "../Trivia/TriviaService";
 console.log("¿Estoy en navegador?", typeof window !== "undefined");
 
-console.log('Inicializando base...')
 const apiservice = new ApiService()
-const database = DatabaseIndex.init()
-const triviaService = new TriviaService(database);
-
+DatabaseIndex.init()
+const triviaService = new TriviaService(DatabaseIndex.db);
+const authService = new AuthService(DatabaseIndex.db);
 
 export const TudotIA = {
     trivia: TriviaApp(apiservice, triviaService),
-    auth: AuthApp(apiservice),
+    auth: AuthApp(apiservice, authService),
 }

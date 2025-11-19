@@ -1,14 +1,10 @@
-
-const config = {
-  darkMode: 'class', // 👈 activa el modo oscuro por clase
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: 'class', // activa dark mode por clase
   content: [
     './app/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
   ],
-  theme: {
-    extend: {},
-  },
+  theme: { extend: {} },
   plugins: [],
-}
-
-export default config
+};

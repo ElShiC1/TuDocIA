@@ -7,6 +7,7 @@ import { message } from "@/lib/hook/useMessage";
 import { TudotIA } from "@/service/global/TudotIA";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import z from "zod";
 
 
@@ -38,14 +39,16 @@ export const Form = () => {
     const submitForm = async (data: z.infer<typeof registerSchema>) => {
         const result = await TudotIA.auth.register(data);
         console.log(result)
-        if (result?.success) {
-            setSuccess(true)
-            router.replace("/");
-            router.refresh();
+        if (!result?.success) {
+            toast.error(result.message)
+            return
         }
+
+        setSuccess(true)
+        router.replace("/");
+        router.refresh();
+        return;
     };
-
-
 
     return (
         <form method="post" className="flex flex-col gap-5 w-full h-full" onSubmit={handleSubmit(submitForm)}>

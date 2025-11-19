@@ -21,16 +21,14 @@ export const Game = ({ preview }: { preview: boolean }) => {
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             e.preventDefault()
         }
-
         window.addEventListener('beforeunload', handleBeforeUnload)
-
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload)
         }
     }, [])
 
     return (
-        <CardModal className="relative h-auto w-full bg-white border border-gray-300 shadow-2xl rounded-4xl p-10 flex flex-col gap-5">
+        <CardModal className="relative h-auto w-full bg-white border border-gray-300 shadow-2xl rounded-4xl p-10 flex flex-col gap-5 dark:bg-neutral-800 dark:border-gray-600">
             <LoadGameAnswer current={currentQuestion} total={triviaData.length} />
             <TitleAnswer title={triviaInfo.quest} />
             <SelectAnswers preview={preview} triviaInfo={triviaInfo} selectedAnswer={selectedAnswer} />

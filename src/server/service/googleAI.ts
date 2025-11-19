@@ -6,6 +6,9 @@ import { Response } from "../helper/Response";
 import { ErrorDto } from "@/lib/errors/ErrorDto";
 import { ErrorGlobal } from "@/lib/errors/ErrorGlobal";
 
+
+
+
 export const GoogleAI = async (generate: GenerateQuest & {token: string}) => {
 
     const result = generateQuestSchema.safeParse(generate);

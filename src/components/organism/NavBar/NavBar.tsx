@@ -1,16 +1,56 @@
 "use client"
-import { usePathname } from "next/navigation"
+import { Icon } from "@/components/atoms/Icon/Icons"
+import { BtnChange } from "@/components/molecules/Form/BtnChange"
+import { ButtonSp } from "@/components/molecules/Form/ButtonSp"
+import { InputText } from "@/components/molecules/Form/InputText"
+import { ModalButton } from "@/components/molecules/Modal/ModalButton"
+import { userSettings } from "@/lib/actions/userSettings.actions"
+import { User } from "@/lib/types/ts/User"
+import { useTheme } from "next-themes"
+import { useEffect } from "react"
+import { useForm } from "react-hook-form"
 
-export const NavBar = ({ user }: { user: string }) => {
+export const NavBar = ({ user }: { user: User }) => {
 
-    const pathname = usePathname()
-    console.log(pathname)
+    const { theme, setTheme } = useTheme()
+    const { register, watch, formState: { errors }, handleSubmit } = useForm({
+        defaultValues: {
+            theme: theme === "light" ? false : true,   // ← Carga desde next-themes
+            user: user.user,
+            token: user.token
+        }
+    })
+
+    const themeBool = watch("theme");
+
+
+    const { onSubmitExport, onSubmitLogout, onSubmitConfig, isSubmmit } = userSettings()
+
+    // Cuando cambia el formulario => cambia el theme global
+    useEffect(() => {
+        setTheme(!themeBool ? "light" : "dark");
+    }, [themeBool]);
 
     return (
         <nav className="flex flex-col gap-5">
             <div id="user" className="flex justify-between">
-                <span className="font-semibold text-gray-500">Hi, {user}</span>
-                <span>{pathname === "/" ? "x" : "<"}</span>
+                <span className="font-semibold text-gray-500 dark:text-white">Hi, {user.user}</span>
+                <ModalButton id="setting" className="h-auto w-6.5" gap={3} icon={<Icon.Config className="dark:text-white cursor-pointer dark:hover:text-gray-200 transition-all text-gray-500" />} >
+                    <div className="flex gap-4">
+                        <div className="flex gap-5 flex-col order-2">
+                            <BtnChange className="w-35" status={themeBool} name="theme" register={register} label="Tema" option={["Dark", "Light"]} />
+                            <InputText name="user" label="Usuario" className="self-start w-35" register={register} errors={errors} />
+                            <InputText name="token" label="Token" className="self-start w-35" register={register} errors={errors} />
+                        </div>
+
+                        <div className="flex flex-col gap-5 order-1">
+                            <ButtonSp id="Guardar" isSubmitting={isSubmmit} className={`h-10 self-end ${isSubmmit ? "bg-gray-400 cursor-not-allowed " : "bg-blue-500 hover:bg-blue-600 cursor-pointer"}`} icon={<Icon.Save className="text-white h-5 w-5" />} onClick={handleSubmit(onSubmitConfig)} />
+                            <ButtonSp id="Exportar" isSubmitting={isSubmmit} className={`h-10 self-end  ${isSubmmit ? "bg-gray-400 cursor-not-allowed " : "bg-green-500 hover:bg-green-600 cursor-pointer"}`} icon={<Icon.AddDB className="text-white h-5 w-5" />} onClick={handleSubmit(onSubmitExport)} />
+                        </div>
+                    </div>
+                    <ButtonSp id="Guardar" isSubmitting={isSubmmit} className={`h-10 text-sm w-full self-end ${isSubmmit ? "bg-gray-400 cursor-not-allowed " : "bg-gray-500 hover:bg-gray-600 cursor-pointer"}`} value="Cerrar Sesion" onClick={handleSubmit(onSubmitLogout)} />
+                </ModalButton>
+
             </div>
         </nav>
     )

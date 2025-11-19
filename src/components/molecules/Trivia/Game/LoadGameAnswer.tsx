@@ -7,7 +7,7 @@ export const LoadGameAnswer = ({current, total}:{current: number, total: number}
 
     return (
         <div
-            className="absolute inset-[-3px] rounded-4xl z-[-1] "
+            className="absolute inset-[-3px] rounded-4xl z-[-1]"
             style={{
                 "--angle": `${progress * 3.6}deg`,
                 background:
